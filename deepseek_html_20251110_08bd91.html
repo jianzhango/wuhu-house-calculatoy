@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芜湖新房购房佣金计算器 - 张健房产圈</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #00e5ff;
+            --secondary: #7b61ff;
+            --accent: #ff2d75;
+            --dark: #0a0e17;
+            --darker: #05070f;
+            --light: #e0f7fa;
+            --card-bg: rgba(16, 22, 36, 0.85);
+            --glass: rgba(255, 255, 255, 0.05);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glow: 0 0 15px rgba(0, 229, 255, 0.5);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(123, 97, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 45, 117, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #a0b3c6;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        
+        .calculator {
+            background: rgba(12, 18, 32, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .rebate-rule {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(123, 97, 255, 0.1));
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            box-shadow: var(--glow);
+        }
+        
+        .rebate-rule h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rebate-rule h3 i {
+            font-size: 1.2rem;
+        }
+        
+        .rebate-rule ul {
+            padding-left: 20px;
+        }
+        
+        .rebate-rule li {
+            margin-bottom: 8px;
+            color: #c5e3e6;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(10, 15, 25, 0.7);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            color: var(--light);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        select:focus, input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .input-group > div {
+            flex: 1;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 15px rgba(0, 229, 255, 0.3);
+            letter-spacing: 1px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 229, 255, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        
+        .btn:hover::after {
+            opacity: 1;
+            transform: rotate(30deg) translate(10%, 10%);
+        }
+        
+        .result {
+            background: rgba(12, 18, 32, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+            margin-top: 20px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .commission-detail, .rebate-detail {
+            background: rgba(0, 229, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+        }
+        
+        .commission-detail h4, .rebate-detail h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .commission-formula {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .disclaimer {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 45, 117, 0.05);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #c5cae9;
+            border: 1px solid rgba(255, 45, 117, 0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a0b3c6;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .note {
+            font-size: 13px;
+            color: #a0b3c6;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .manual-input {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .exclusive-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        
+        .area-input, .product-type-input {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .error {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .result-highlight {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(123, 97, 255, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            box-shadow: var(--glow);
+        }
+        
+        .result-highlight .amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        
+        .gift-card-note {
+            font-size: 12px;
+            color: #a0b3c6;
+            margin-top: 5px;
+        }
+        
+        .tech-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tech-grid"></div>
+    
+    <div class="container">
+        <h1><i class="fas fa-calculator"></i> 芜湖新房购房佣金计算器</h1>
+        <p class="subtitle">通过张健房产圈购买新房，预估您可获得的购房优惠金</p>
+        
+        <div class="calculator">
+            <div class="rebate-rule">
+                <h3><i class="fas fa-info-circle"></i> 优惠金计算规则</h3>
+                <ul>
+                    <li>开发商佣金 ≤ 2.5万元，优惠金比例为<strong>50%</strong></li>
+                    <li>开发商佣金 > 2.5万元，优惠金比例为<strong>60%</strong></li>
+                    <li>购物卡等非现金奖励按<strong>80%</strong>计入固定佣金</li>
+                </ul>
+            </div>
+            
+            <div class="form-group">
+                <label for="project"><i class="fas fa-building"></i> 选择楼盘项目</label>
+                <select id="project">
+                    <option value="">-- 请选择楼盘或自定义输入 --</option>
+                    <optgroup label="最新合作项目">
+                        <option value="高速时代学府">高速时代学府</option>
+                        <option value="时代风华">时代风华</option>
+                        <option value="拓基鼎元府">拓基鼎元府</option>
+                        <option value="保利文华和颂">保利文华和颂</option>
+                        <option value="中御公馆">中御公馆</option>
+                    </optgroup>
+                    <optgroup label="新增合作项目">
+                        <option value="凤起江辰">凤起江辰 <span class="exclusive-tag">独家分销</span></option>
+                        <option value="卓瑞悦麓华著">卓瑞悦麓华著</option>
+                        <option value="老船厂1900长江序">老船厂1900长江序</option>
+                        <option value="远翥澜岸里">远翥澜岸里</option>
+                        <option value="伟星湖山云著">伟星湖山云著 <span class="exclusive-tag">独家分销</span></option>
+                        <option value="保利时光印象">保利时光印象</option>
+                        <option value="翡翠森林">翡翠森林</option>
+                        <option value="银湖万象">银湖万象</option>
+                    </optgroup>
+                    <optgroup label="其他合作项目">
+                        <option value="大家璞悦光年">大家璞悦光年</option>
+                        <option value="大家·金麟府">大家·金麟府</option>
+                        <option value="伟星天空之城">伟星天空之城</option>
+                        <option value="宜居梦溪观澜">宜居梦溪观澜</option>
+                        <option value="伟星镜湖壹品">伟星镜湖壹品</option>
+                        <option value="伟星樘樾">伟星樘樾</option>
+                        <option value="凤鸣花园">凤鸣花园</option>
+                        <option value="褐山云著">褐山云著</option>
+                        <option value="天成赭山府">天成赭山府</option>
+                        <option value="天成滨江府">天成滨江府</option>
+                        <option value="未来云辰">未来云辰</option>
+                        <option value="海螺永盛花园">海螺永盛花园</option>
+                        <option value="港龙·湖山映">港龙·湖山映</option>
+                        <!-- 新增项目 -->
+                        <option value="龙湖花园">龙湖花园</option>
+                        <option value="安展熙园">安展熙园</option>
+                        <option value="安展莲台">安展莲台</option>
+                        <option value="桃花源墅（天池圣居）">桃花源墅（天池圣居）</option>
+                        <option value="赭麓公馆（商业）">赭麓公馆（商业）</option>
+                        <option value="学府商业广场">学府商业广场</option>
+                    </optgroup>
+                </select>
+                <div class="error" id="project-error">请选择楼盘项目</div>
+            </div>
+            
+            <div class="area-input" id="area-input">
+                <div class="form-group">
+                    <label for="area"><i class="fas fa-ruler-combined"></i> 房屋面积（㎡）</label>
+                    <input type="number" id="area" placeholder="请输入房屋面积，单位：㎡" min="1">
+                    <div class="error" id="area-error">请输入有效的房屋面积</div>
+                </div>
+            </div>
+            
+            <div class="product-type-input" id="product-type-input">
+                <div class="form-group">
+                    <label for="product-type"><i class="fas fa-home"></i> 产品类型</label>
+                    <select id="product-type">
+                        <option value="">-- 请选择产品类型 --</option>
+                    </select>
+                    <div class="error" id="product-type-error">请选择产品类型</div>
+                </div>
+            </div>
+            
+            <div class="manual-input">
+                <div class="form-group">
+                    <label for="price"><i class="fas fa-money-bill-wave"></i> 房屋总价（万元）</label>
+                    <input type="number" id="price" placeholder="请输入房屋总价，单位：万元" min="1">
+                    <div class="error" id="price-error">请输入有效的房屋总价</div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="fixed-commission"><i class="fas fa-coins"></i> 固定佣金（元）</label>
+                        <input type="number" id="fixed-commission" placeholder="固定佣金金额" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="percentage-commission"><i class="fas fa-percentage"></i> 比例佣金（%）</label>
+                        <input type="number" id="percentage-commission" placeholder="佣金比例" step="0.01" min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn pulse" id="calculate"><i class="fas fa-calculator"></i> 计算购房优惠金</button>
+        </div>
+        
+        <div class="result" id="result">
+            <h3><i class="fas fa-chart-line"></i> 购房优惠金估算结果</h3>
+            
+            <div class="result-highlight">
+                <div>您预计可获得购房优惠金</div>
+                <div class="amount" id="result-benefit-highlight">-- 元</div>
+                <div>相当于房屋总价的 <span id="result-ratio-highlight">--</span></div>
+            </div>
+            
+            <div class="result-item">
+                <span>所选楼盘：</span>
+                <span class="result-value" id="result-project">--</span>
+            </div>
+            <div class="result-item">
+                <span>房屋总价：</span>
+                <span class="result-value" id="result-price">-- 万元</span>
+            </div>
+            
+            <div class="commission-detail">
+                <h4><i class="fas fa-cogs"></i> 开发商佣金计算方式：</h4>
+                <div id="commission-calculation">--</div>
+                <div class="result-item">
+                    <span>开发商佣金总额：</span>
+                    <span class="result-value" id="result-commission">-- 元</span>
+                </div>
+            </div>
+            
+            <div class="rebate-detail">
+                <h4><i class="fas fa-file-invoice-dollar"></i> 优惠金计算明细：</h4>
+                <div class="commission-formula">
+                    <div id="rebate-rule-display">--</div>
+                </div>
+                <div class="result-item">
+                    <span>适用优惠金比例：</span>
+                    <span class="result-value" id="result-rebate-rate">--</span>
+                </div>
+            </div>
+            
+            <div class="result-item">
+                <span>预计购房优惠金：</span>
+                <span class="result-value" id="result-benefit">-- 元</span>
+            </div>
+            <div class="result-item">
+                <span>优惠比例：</span>
+                <span class="result-value" id="result-ratio">--</span>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            <p><strong><i class="fas fa-exclamation-circle"></i> 优惠金政策说明：</strong></p>
+            <p>1. 开发商佣金 ≤ 2.5万元，优惠金比例为50%；</p>
+            <p>2. 开发商佣金 > 2.5万元，优惠金比例为60%；</p>
+            <p>3. 购物卡等非现金奖励按80%计入固定佣金；</p>
+            <p>4. 所有优惠金将通过公司对公账户支付，签订《购房优惠协议》保障权益；</p>
+            <p>5. 计算结果为估算值，实际金额以最终协议为准。</p>
+        </div>
+        
+        <div class="footer">
+            <p>芜湖张健房产圈 · 您身边的房产顾问</p>
+            <p>咨询热线：<span class="highlight">请添加微信获取</span></p>
+        </div>
+    </div>
+
+    <script>
+        // 这里保留原有的JavaScript代码，因为功能逻辑不变
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate');
+            const resultDiv = document.getElementById('result');
+            const projectSelect = document.getElementById('project');
+            const areaInput = document.getElementById('area-input');
+            const areaField = document.getElementById('area');
+            const productTypeInput = document.getElementById('product-type-input');
+            const productTypeSelect = document.getElementById('product-type');
+            const priceField = document.getElementById('price');
+            
+            // 错误提示元素
+            const projectError = document.getElementById('project-error');
+            const areaError = document.getElementById('area-error');
+            const productTypeError = document.getElementById('product-type-error');
+            const priceError = document.getElementById('price-error');
+            
+            // 楼盘佣金数据
+            const projectData = {
+                // 最新合作项目
+                "高速时代学府": { 
+                    type: "percentage", 
+                    value: 6.1,
+                    calculation: "比例佣金：房屋总价 × 6.1%"
+                },
+                "时代风华": { 
+                    type: "percentage", 
+                    value: 2.4,
+                    calculation: "比例佣金：房屋总价 × 2.4%"
+                },
+                "拓基鼎元府": { 
+                    type: "percentage", 
+                    value: 2.4,
+                    calculation: "比例佣金：房屋总价 × 2.4%"
+                },
+                "保利文华和颂": { 
+                    type: "product_percentage", 
+                    product_types: {
+                        "高层": { value: 1.6, fixed: 8000 },
+                        "洋房": { value: 1.6, fixed: 16000 }
+                    },
+                    note: "高层：1.6% + 8,000元，洋房：1.6% + 16,000元",
+                    calculation: "比例佣金 + 固定佣金（根据产品类型）"
+                },
+                "中御公馆": { 
+                    type: "product_percentage", 
+                    product_types: {
+                        "高层": { value: 2.4 },
+                        "商铺": { value: 2.4 },
+                        "叠墅": { value: 2.4 }
+                    },
+                    note: "高层、商铺、叠墅均为2.4%比例佣金",
+                    calculation: "比例佣金（根据产品类型）"
+                },
+                
+                // 新增项目
+                "凤起江辰": { 
+                    type: "percentage", 
+                    value: 4.0,
+                    note: "独家分销项目",
+                    calculation: "比例佣金：房屋总价 × 4.0%"
+                },
+                "卓瑞悦麓华著": { 
+                    type: "area_fixed", 
+                    value: 43000,
+                    high_value: 51000,
+                    threshold: 130,
+                    note: "130㎡以下43,000元/套，130㎡以上51,000元/套",
+                    calculation: "固定佣金：根据面积确定"
+                },
+                "老船厂1900长江序": { 
+                    type: "percentage", 
+                    value: 2.1,
+                    high_value: 2.2,
+                    threshold: 7,
+                    note: "2.1%，7套及以上2.2%",
+                    calculation: "比例佣金：房屋总价 × 2.1%（7套以上2.2%）"
+                },
+                "远翥澜岸里": { 
+                    type: "percentage", 
+                    value: 2.1, 
+                    fixed: 9000, 
+                    gift_card: 10000,
+                    note: "2.1% + 9,000元 + 10,000元购物卡（按80%计入固定佣金）",
+                    calculation: "比例佣金：房屋总价 × 2.1% + 固定9,000元 + 10,000元购物卡（按80%计入）"
+                },
+                "伟星湖山云著": { 
+                    type: "area_fixed", 
+                    value: 30000,
+                    high_value: 40000,
+                    threshold: 140,
+                    note: "140㎡以下30,000元/套，140㎡以上40,000元/套",
+                    calculation: "固定佣金：根据面积确定"
+                },
+                "保利时光印象": { 
+                    type: "fixed", 
+                    value: 35000,
+                    calculation: "固定佣金：35,000元/套"
+                },
+                "翡翠森林": { 
+                    type: "area_fixed", 
+                    value: 30000,
+                    high_value: 50000,
+                    threshold: 320,
+                    note: "320㎡以下30,000元/套，320㎡以上50,000元/套",
+                    calculation: "固定佣金：根据面积确定"
+                },
+                "银湖万象": { 
+                    type: "fixed", 
+                    value: 20000,
+                    calculation: "固定佣金：20,000元/套"
+                },
+                
+                // 原有项目
+                "大家璞悦光年": { 
+                    type: "fixed", 
+                    value: 41000, 
+                    note: "按套数阶梯计算，此处取最低档",
+                    calculation: "固定佣金：41,000元/套"
+                },
+                "大家·金麟府": { 
+                    type: "fixed", 
+                    value: 65000,
+                    calculation: "固定佣金：65,000元/套"
+                },
+                "伟星天空之城": { 
+                    type: "fixed", 
+                    value: 40000,
+                    calculation: "固定佣金：40,000元/套"
+                },
+                "宜居梦溪观澜": { 
+                    type: "percentage", 
+                    value: 2.4, 
+                    fixed: 16000, 
+                    note: "2.4% + 16000元/套",
+                    calculation: "比例佣金：房屋总价 × 2.4% + 固定16,000元"
+                },
+                "伟星镜湖壹品": { 
+                    type: "fixed", 
+                    value: 40000,
+                    calculation: "固定佣金：40,000元/套"
+                },
+                "伟星樘樾": { 
+                    type: "fixed", 
+                    value: 25000,
+                    calculation: "固定佣金：25,000元/套"
+                },
+                "凤鸣花园": { 
+                    type: "percentage", 
+                    value: 2.4, 
+                    note: "按实际成交价1-6套2.4%",
+                    calculation: "比例佣金：房屋总价 × 2.4%"
+                },
+                "褐山云著": { 
+                    type: "percentage", 
+                    value: 2.8,
+                    calculation: "比例佣金：房屋总价 × 2.8%"
+                },
+                "天成赭山府": { 
+                    type: "fixed", 
+                    value: 50000,
+                    calculation: "固定佣金：50,000元/套"
+                },
+                "天成滨江府": { 
+                    type: "percentage", 
+                    value: 2.0,
+                    calculation: "比例佣金：房屋总价 × 2.0%"
+                },
+                "未来云辰": { 
+                    type: "percentage", 
+                    value: 3.2, 
+                    fixed: 40000, 
+                    note: "3.2% + 40000元/套",
+                    calculation: "比例佣金：房屋总价 × 3.2% + 固定40,000元"
+                },
+                "海螺永盛花园": { 
+                    type: "fixed", 
+                    value: 55000,
+                    calculation: "固定佣金：55,000元/套"
+                },
+                "港龙·湖山映": { 
+                    type: "fixed", 
+                    value: 24000, 
+                    note: "高层24000元/套，洋房28000元/套",
+                    calculation: "固定佣金：高层24,000元/套，洋房28,000元/套"
+                },
+                
+                // 新增项目
+                "龙湖花园": { 
+                    type: "fixed", 
+                    value: 23000,
+                    calculation: "固定佣金：20,000元 + 3,000元 = 23,000元/套"
+                },
+                "安展熙园": { 
+                    type: "fixed", 
+                    value: 100000,
+                    calculation: "固定佣金：100,000元/套"
+                },
+                "安展莲台": { 
+                    type: "fixed", 
+                    value: 100000,
+                    calculation: "固定佣金：100,000元/套"
+                },
+                "桃花源墅（天池圣居）": { 
+                    type: "percentage", 
+                    value: 4.0,
+                    fixed: 15000,
+                    calculation: "比例佣金：房屋总价 × 4.0% + 固定15,000元"
+                },
+                "赭麓公馆（商业）": { 
+                    type: "percentage", 
+                    value: 2.0,
+                    calculation: "比例佣金：房屋总价 × 2.0%"
+                },
+                "学府商业广场": { 
+                    type: "percentage", 
+                    value: 2.0,
+                    calculation: "比例佣金：房屋总价 × 2.0%"
+                }
+            };
+            
+            // 楼盘选择事件
+            projectSelect.addEventListener('change', function() {
+                const project = this.value;
+                hideAllErrors();
+                
+                if (project && projectData[project]) {
+                    const data = projectData[project];
+                    
+                    // 显示或隐藏面积输入框
+                    if (data.type === "area_fixed") {
+                        areaInput.style.display = "block";
+                        areaField.required = true;
+                    } else {
+                        areaInput.style.display = "none";
+                        areaField.required = false;
+                    }
+                    
+                    // 显示或隐藏产品类型选择
+                    if (data.type === "product_percentage") {
+                        productTypeInput.style.display = "block";
+                        productTypeSelect.innerHTML = '<option value="">-- 请选择产品类型 --</option>';
+                        
+                        // 填充产品类型选项
+                        for (const productType in data.product_types) {
+                            const option = document.createElement('option');
+                            option.value = productType;
+                            option.textContent = productType;
+                            productTypeSelect.appendChild(option);
+                        }
+                    } else {
+                        productTypeInput.style.display = "none";
+                    }
+                    
+                    // 根据楼盘类型填充数据
+                    if (data.type === "fixed") {
+                        document.getElementById('fixed-commission').value = data.value;
+                        document.getElementById('percentage-commission').value = '';
+                    } else if (data.type === "percentage") {
+                        document.getElementById('fixed-commission').value = data.fixed || '';
+                        document.getElementById('percentage-commission').value = data.value;
+                    } else if (data.type === "area_fixed") {
+                        // 对于按面积分段的项目，提示用户需要输入面积
+                        document.getElementById('fixed-commission').value = data.value;
+                        document.getElementById('percentage-commission').value = '';
+                    } else if (data.type === "product_percentage") {
+                        // 对于按产品类型的项目，清空输入框
+                        document.getElementById('fixed-commission').value = '';
+                        document.getElementById('percentage-commission').value = '';
+                    }
+                    
+                    // 自动聚焦到房屋总价输入框
+                    priceField.focus();
+                } else {
+                    // 清空输入框
+                    document.getElementById('fixed-commission').value = '';
+                    document.getElementById('percentage-commission').value = '';
+                    areaInput.style.display = "none";
+                    areaField.required = false;
+                    productTypeInput.style.display = "none";
+                }
+            });
+            
+            // 隐藏所有错误提示
+            function hideAllErrors() {
+                projectError.style.display = 'none';
+                areaError.style.display = 'none';
+                productTypeError.style.display = 'none';
+                priceError.style.display = 'none';
+            }
+            
+            // 显示错误提示
+            function showError(errorElement, message) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            // 验证表单
+            function validateForm() {
+                let isValid = true;
+                
+                // 验证楼盘选择
+                if (!projectSelect.value) {
+                    showError(projectError, '请选择楼盘项目');
+                    isValid = false;
+                }
+                
+                // 验证房屋总价
+                const price = parseFloat(priceField.value);
+                if (!price || price <= 0) {
+                    showError(priceError, '请输入有效的房屋总价');
+                    isValid = false;
+                }
+                
+                // 验证面积（如果需要）
+                const project = projectSelect.value;
+                if (project && projectData[project] && projectData[project].type === "area_fixed") {
+                    const area = parseFloat(areaField.value);
+                    if (!area || area <= 0) {
+                        showError(areaError, '请输入有效的房屋面积');
+                        isValid = false;
+                    }
+                }
+                
+                // 验证产品类型（如果需要）
+                if (project && projectData[project] && projectData[project].type === "product_percentage") {
+                    if (!productTypeSelect.value) {
+                        showError(productTypeError, '请选择产品类型');
+                        isValid = false;
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            calculateBtn.addEventListener('click', function() {
+                hideAllErrors();
+                
+                if (!validateForm()) {
+                    return;
+                }
+                
+                const project = document.getElementById('project').value;
+                const price = parseFloat(document.getElementById('price').value);
+                const area = parseFloat(document.getElementById('area').value) || 0;
+                const productType = document.getElementById('product-type').value;
+                const fixedCommission = parseFloat(document.getElementById('fixed-commission').value) || 0;
+                const percentageCommission = parseFloat(document.getElementById('percentage-commission').value) || 0;
+                
+                let commission = 0;
+                let calculationText = "";
+                const data = projectData[project] || {};
+                
+                // 计算开发商佣金
+                if (data.type === "product_percentage" && productType) {
+                    // 按产品类型计算佣金
+                    const productData = data.product_types[productType];
+                    const percentageAmount = price * 10000 * (productData.value / 100);
+                    commission = percentageAmount + (productData.fixed || 0);
+                    
+                    calculationText = `比例佣金：${price}万元 × ${productData.value}% = ${percentageAmount.toLocaleString()}元`;
+                    if (productData.fixed) {
+                        calculationText += ` + 固定${productData.fixed.toLocaleString()}元`;
+                    }
+                    calculationText += ` (${productType})`;
+                } else if (percentageCommission > 0) {
+                    // 比例佣金计算
+                    const percentageAmount = price * 10000 * (percentageCommission / 100);
+                    commission = percentageAmount + fixedCommission;
+                    
+                    calculationText = `比例佣金：${price}万元 × ${percentageCommission}% = ${percentageAmount.toLocaleString()}元`;
+                    if (fixedCommission > 0) {
+                        calculationText += ` + 固定${fixedCommission.toLocaleString()}元`;
+                    }
+                } else {
+                    // 检查是否为按面积分段的固定佣金
+                    if (data.type === "area_fixed" && area > 0) {
+                        if (area >= data.threshold) {
+                            commission = data.high_value;
+                            calculationText = `固定佣金：${data.high_value.toLocaleString()}元 (面积${area}㎡ ≥ ${data.threshold}㎡)`;
+                        } else {
+                            commission = data.value;
+                            calculationText = `固定佣金：${data.value.toLocaleString()}元 (面积${area}㎡ < ${data.threshold}㎡)`;
+                        }
+                    } else {
+                        commission = fixedCommission;
+                        calculationText = `固定佣金：${fixedCommission.toLocaleString()}元`;
+                    }
+                }
+                
+                // 特殊项目处理 - 购物卡按80%计入固定佣金
+                if (data.gift_card) {
+                    const giftCardValue = data.gift_card * 0.8; // 购物卡按80%计入
+                    commission += giftCardValue;
+                    calculationText += ` + ${data.gift_card.toLocaleString()}元购物卡（按80%计入${giftCardValue.toLocaleString()}元）`;
+                }
+                
+                // 计算购房优惠金（新规则：≤2.5万返50%，>2.5万返60%）
+                let rebateRate, benefit;
+                
+                if (commission <= 25000) {
+                    rebateRate = "50%";
+                    benefit = commission * 0.5;
+                } else {
+                    rebateRate = "60%";
+                    benefit = commission * 0.6;
+                }
+                
+                const ratio = (benefit / (price * 10000) * 100).toFixed(2);
+                
+                // 显示结果
+                document.getElementById('result-project').textContent = project || "自定义输入";
+                document.getElementById('result-price').textContent = price + ' 万元';
+                document.getElementById('commission-calculation').innerHTML = calculationText;
+                document.getElementById('result-commission').textContent = commission.toLocaleString() + ' 元';
+                document.getElementById('rebate-rule-display').textContent = `优惠金规则：开发商佣金${commission <= 25000 ? '≤' : '>'}2.5万元，适用${rebateRate}优惠金比例`;
+                document.getElementById('result-rebate-rate').textContent = rebateRate;
+                document.getElementById('result-benefit').textContent = benefit.toLocaleString() + ' 元';
+                document.getElementById('result-ratio').textContent = ratio + '%';
+                
+                // 突出显示优惠金金额
+                document.getElementById('result-benefit-highlight').textContent = benefit.toLocaleString() + ' 元';
+                document.getElementById('result-ratio-highlight').textContent = ratio + '%';
+                
+                // 如果有备注，显示备注
+                if (data.note) {
+                    document.getElementById('commission-calculation').innerHTML += `<div class="note">${data.note}</div>`;
+                }
+                
+                resultDiv.style.display = 'block';
+                
+                // 滚动到结果区域
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
